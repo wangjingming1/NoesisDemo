@@ -3,7 +3,7 @@
 #include "MyNsTest.h"
 
 MyNsTest::MyNsTest(){
-	Noesis::GUI::LoadComponent(this, "MyNsTest.xaml");
+	Noesis::GUI::LoadComponent(this, "addChuguiView.xaml");
 }
 
 MyNsTest::~MyNsTest(){
