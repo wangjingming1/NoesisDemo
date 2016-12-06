@@ -1,10 +1,11 @@
-#pragma once
+﻿#pragma once
 #include "pch.h"
 #include "MyNsTest.h"
 #include <string>
 #include "Include\NsGui\Style.h"
 #include "Include\NsGui\UIElementCollection.h"
 #include "Include\NsGui\ColumnDefinition.h"
+
 using namespace Noesis;
 
 MyNsTest::MyNsTest(){
@@ -41,12 +42,26 @@ void MyNsTest::reloadView(){
 		gridTop_->GetChildren()->Add(btn.GetPtr());
 	}
 
-	ListBox *listBox = FindName<ListBox>("scrollCenter");
-	printf("1111");
 }
 
 MyNsTest::~MyNsTest(){
 }
+//MARK：/////////////////////////////////////////////////
+DataObj::DataObj(NsString text, NsString pic) :
+	text_(text), pic_(pic)
+{	
+	FILE *fp = fopen(pic_.c_str(), "r");
+	if (fp) {
+		Ptr<FileStream> fs = *new FileStream(fp);// File::OpenStream(pic_.c_str());
+		unsigned char *byData;
+		//NsChar *byData = "";
+		fs->Read(byData, fs->GetLength());
+		image_ = *new BitmapImage(byData);
+	
+		//delete []byData;
+		fclose(fp);
+	}
+};
 
 DataModel3::~DataModel3() {
 	

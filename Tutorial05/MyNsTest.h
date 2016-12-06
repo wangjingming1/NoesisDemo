@@ -1,4 +1,4 @@
-#include <NoesisGUI.h>
+﻿#include <NoesisGUI.h>
 #include <vector>
 class MyNsTest : public Noesis::Grid
 {
@@ -19,17 +19,18 @@ class DataObj : public Noesis::BaseComponent
 public:
 	DataObj() {};
 	~DataObj() {};
-	DataObj(NsString text, NsString pic) :
-		text_(text), pic_(pic) {};
+	DataObj(NsString text, NsString pic);
 private:
 	NS_IMPLEMENT_INLINE_REFLECTION(DataObj, BaseComponent)
 	{
 		NsMeta<Noesis::TypeId>("DataObj");
 		NsProp("Text", &DataObj::text_);
 		NsProp("Pic", &DataObj::pic_);
+		NsProp("Image", &DataObj::image_);
 	}
 	NsString text_;
 	NsString pic_;
+	Noesis::Ptr<Noesis::Gui::BitmapImage> image_;
 };
 
 class DataModel3 : public Noesis::BaseComponent
@@ -38,7 +39,7 @@ public:
 	DataModel3() 
 	{
 		dataObjs_ = *new Noesis::ObservableCollection<DataObj>;
-		NsString picName = "image/1.jpg";
+		NsString picName = "resource/image/1.jpg";// "image/1.jpg";
 		for (int i = 0; i < 20; i++) {
 			Noesis::Ptr<DataObj> dataObj = *new DataObj("1", picName);
 			dataObjs_->Add(dataObj.GetPtr());
