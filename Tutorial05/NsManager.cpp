@@ -20,5 +20,8 @@ NsManager* NsManager::getSingleton(){
 
 void NsManager::NsRegisterReflection(bool registerComponents)
 {
-	NS_REGISTER_COMPONENT(MyNsTest)
+	NS_REGISTER_COMPONENT(MyNsTest);
+	NS_REGISTER_COMPONENT(DataObj);
+	NS_REGISTER_COMPONENT(DataModel3);
+
 }
