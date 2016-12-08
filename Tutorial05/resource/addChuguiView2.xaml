@@ -59,8 +59,8 @@
 		         <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="80"/>
              </Grid.ColumnDefinitions>
-             <Button Width="80" Height="60" Grid.Row="0" Grid.Column="0">
-			           <Image Source="{Binding Pic}" Stretch="Fill"/>
+             <Button Width="80" Height="60" Grid.Row="0" Grid.Column="0" Background="{Binding ImageBrush}">
+			           
              </Button>
 	         </Grid>
         </DataTemplate>
@@ -119,7 +119,10 @@
           </ListBox>
     <StackPanel Grid.Column="1" Grid.Row="2" Width="640" Height="80">
         <ScrollViewer Name="scrollBotton" Margin="0, 0" Width="640"  Height="80" PanningMode="Both" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
-            <Grid Background="Gray" ShowGridLines="False" Height="80" Width="800">
+            <Grid Background="Gray" ShowGridLines="False" Height="80" Width="800"
+                ManipulationStarting="OnManipulationStarting"
+                ManipulationDelta="OnManipulationDelta"
+                ManipulationCompleted="OnManipulationCompleted">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="60"/>
                 </Grid.RowDefinitions>
@@ -135,16 +138,16 @@
                     <ColumnDefinition Width="80"/>
                     <ColumnDefinition Width="80"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Grid.Row="0" Style="{StaticResource Button}"></Button>
-                <Button Grid.Column="1" Grid.Row="0" Style="{StaticResource Button}"></Button>
-                <Button Grid.Column="2" Grid.Row="0" Style="{StaticResource Button}"></Button>
-                <Button Grid.Column="3" Grid.Row="0" Style="{StaticResource Button}"></Button>
-                <Button Grid.Column="4" Grid.Row="0" Style="{StaticResource Button}"></Button>
-                <Button Grid.Column="5" Grid.Row="0" Style="{StaticResource Button}"></Button>
-                <Button Grid.Column="6" Grid.Row="0" Style="{StaticResource Button}"></Button>
-                <Button Grid.Column="7" Grid.Row="0" Style="{StaticResource Button}"></Button>
-                <Button Grid.Column="8" Grid.Row="0" Style="{StaticResource Button}"></Button>
-                <Button Grid.Column="9" Grid.Row="0" Style="{StaticResource Button}"></Button>
+                <Button Grid.Column="0" Grid.Row="0" Style="{StaticResource Button}" IsManipulationEnabled="True"></Button>
+                <Button Grid.Column="1" Grid.Row="0" Style="{StaticResource Button}" IsManipulationEnabled="True"></Button>
+                <Button Grid.Column="2" Grid.Row="0" Style="{StaticResource Button}" IsManipulationEnabled="True"></Button>
+                <Button Grid.Column="3" Grid.Row="0" Style="{StaticResource Button}" IsManipulationEnabled="True"></Button>
+                <Button Grid.Column="4" Grid.Row="0" Style="{StaticResource Button}" IsManipulationEnabled="True"></Button>
+                <Button Grid.Column="5" Grid.Row="0" Style="{StaticResource Button}" IsManipulationEnabled="True"></Button>
+                <Button Grid.Column="6" Grid.Row="0" Style="{StaticResource Button}" IsManipulationEnabled="True"></Button>
+                <Button Grid.Column="7" Grid.Row="0" Style="{StaticResource Button}" IsManipulationEnabled="True"></Button>
+                <Button Grid.Column="8" Grid.Row="0" Style="{StaticResource Button}" IsManipulationEnabled="True"></Button>
+                <Button Grid.Column="9" Grid.Row="0" Style="{StaticResource Button}" IsManipulationEnabled="True"></Button>
             </Grid>
         </ScrollViewer>
     </StackPanel>

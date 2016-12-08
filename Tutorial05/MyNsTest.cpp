@@ -44,23 +44,62 @@ void MyNsTest::reloadView(){
 
 }
 
+void MyNsTest::OnManipulationStarting(const ManipulationStartingEventArgs& e)
+{
+	e.mode = ManipulationModes_All;
+	e.manipulationContainer = (Visual*)FindName("scrollBotton");
+	e.handled = true;
+}
+
+void MyNsTest::OnManipulationInertiaStarting(const ManipulationInertiaStartingEventArgs& e)
+{
+	e.translationBehavior.desiredDeceleration = 100.0f / (1000.0f * 1000.0f);
+	e.rotationBehavior.desiredDeceleration = 360.0f / (1000.0f * 1000.0f);
+	e.expansionBehavior.desiredDeceleration = 300.0f / (1000.0f * 1000.0f);
+	e.handled = true;
+}
+
+void MyNsTest::OnManipulationDelta(const ManipulationDeltaEventArgs& e)
+{
+	UIElement* rectangle = (UIElement*)e.source;
+	MatrixTransform* tr = (MatrixTransform*)rectangle->GetRenderTransform();
+	Transform2f mtx = tr->GetMatrix();
+
+	mtx.RotateAt(e.deltaManipulation.rotation * DegToRad_f, e.manipulationOrigin.x,
+		e.manipulationOrigin.y);
+	mtx.ScaleAt(e.deltaManipulation.scale, e.deltaManipulation.scale,
+		e.manipulationOrigin.x, e.manipulationOrigin.y);
+	mtx.Translate(e.deltaManipulation.translation.x, e.deltaManipulation.translation.y);
+
+	tr->SetMatrix(mtx);
+	e.handled = true;
+}
+
+void MyNsTest::OnManipulationCompleted(const Noesis::Gui::ManipulationDeltaEventArgs& e)
+{
+
+}
+
 MyNsTest::~MyNsTest(){
 }
 //MARK：/////////////////////////////////////////////////
 DataObj::DataObj(NsString text, NsString pic) :
 	text_(text), pic_(pic)
 {	
-	FILE *fp = fopen(pic_.c_str(), "r");
-	if (fp) {
-		Ptr<FileStream> fs = *new FileStream(fp);// File::OpenStream(pic_.c_str());
-		unsigned char *byData;
-		//NsChar *byData = "";
-		fs->Read(byData, fs->GetLength());
-		image_ = *new BitmapImage(byData);
-	
-		//delete []byData;
-		fclose(fp);
-	}
+	Noesis::Ptr<Noesis::BitmapImage> image = *new Noesis::BitmapImage("image/1.jpg");
+	auto x = image->GetDpiX();
+	auto y = image->GetDpiY();
+	auto width = image->GetWidth();
+	auto height = image->GetHeight();
+	FILE *f;
+	fopen_s(&f, "resource/image/1.jpg", "rb");
+	auto buffer_size = fseek(f, 0, SEEK_END);
+	rewind(f);
+	NsByte * buffer = static_cast<NsByte *>(malloc(sizeof(unsigned char)*buffer_size));
+	fread(buffer, 1, buffer_size, f);
+	Noesis::Ptr<Noesis::BitmapSource> source = Noesis::BitmapSource::Create(
+		width, height, x, y, buffer, buffer_size, width / 8);
+	brush_ = *new Noesis::ImageBrush(image.GetPtr()/*source.GetPtr()*/);
 };
 
 DataModel3::~DataModel3() {
