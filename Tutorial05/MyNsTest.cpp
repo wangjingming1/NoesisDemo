@@ -41,44 +41,25 @@ void MyNsTest::reloadView(){
 		
 		gridTop_->GetChildren()->Add(btn.GetPtr());
 	}
+	Button *btn = FindName<Button>("Button1");
+	btn->MouseDown += MakeDelegate(&myMouseButtonDown);
+	btn->MouseUp += MakeDelegate(myMouseButtonUp);
+	btn->MouseMove += MakeDelegate(myMouseButtonMove);
+	btn->Click += Delegate(myMouseButtonDown);
+}
+
+void MyNsTest::myMouseButtonDown(Noesis::Core::BaseComponent* sender, const Noesis::Gui::RoutedEventArgs& e) {
 
 }
 
-void MyNsTest::OnManipulationStarting(const ManipulationStartingEventArgs& e)
-{
-	e.mode = ManipulationModes_All;
-	e.manipulationContainer = (Visual*)FindName("scrollBotton");
-	e.handled = true;
-}
-
-void MyNsTest::OnManipulationInertiaStarting(const ManipulationInertiaStartingEventArgs& e)
-{
-	e.translationBehavior.desiredDeceleration = 100.0f / (1000.0f * 1000.0f);
-	e.rotationBehavior.desiredDeceleration = 360.0f / (1000.0f * 1000.0f);
-	e.expansionBehavior.desiredDeceleration = 300.0f / (1000.0f * 1000.0f);
-	e.handled = true;
-}
-
-void MyNsTest::OnManipulationDelta(const ManipulationDeltaEventArgs& e)
-{
-	UIElement* rectangle = (UIElement*)e.source;
-	MatrixTransform* tr = (MatrixTransform*)rectangle->GetRenderTransform();
-	Transform2f mtx = tr->GetMatrix();
-
-	mtx.RotateAt(e.deltaManipulation.rotation * DegToRad_f, e.manipulationOrigin.x,
-		e.manipulationOrigin.y);
-	mtx.ScaleAt(e.deltaManipulation.scale, e.deltaManipulation.scale,
-		e.manipulationOrigin.x, e.manipulationOrigin.y);
-	mtx.Translate(e.deltaManipulation.translation.x, e.deltaManipulation.translation.y);
-
-	tr->SetMatrix(mtx);
-	e.handled = true;
-}
-
-void MyNsTest::OnManipulationCompleted(const Noesis::Gui::ManipulationDeltaEventArgs& e)
-{
+void MyNsTest::myMouseButtonUp(BaseComponent* sender, const RoutedEventArgs& e){
 
 }
+
+void MyNsTest::myMouseButtonMove(BaseComponent* sender, const RoutedEventArgs& e) {
+
+}
+
 
 MyNsTest::~MyNsTest(){
 }

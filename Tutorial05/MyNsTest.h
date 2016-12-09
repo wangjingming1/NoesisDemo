@@ -8,13 +8,9 @@ public:
 	Noesis::Grid *gridTop_;
 	std::vector<std::string> gridTopData_;
 	void reloadView();
-	//触摸操作开始
-	void OnManipulationStarting(const Noesis::Gui::ManipulationStartingEventArgs& e);
-	void OnManipulationInertiaStarting(const Noesis::Gui::ManipulationInertiaStartingEventArgs& e);
-	//持续触摸操作
-	void OnManipulationDelta(const Noesis::Gui::ManipulationDeltaEventArgs& e);
-	//触摸操作结束
-	void OnManipulationCompleted(const Noesis::Gui::ManipulationDeltaEventArgs& e);
+	void myMouseButtonDown(BaseComponent* sender, const Noesis::Gui::RoutedEventArgs& e);
+	void myMouseButtonUp(BaseComponent* sender, const Noesis::Gui::RoutedEventArgs& e);
+	void myMouseButtonMove(BaseComponent* sender, const Noesis::Gui::RoutedEventArgs& e);
 	NS_IMPLEMENT_INLINE_REFLECTION(MyNsTest, Noesis::Grid)
 	{
 		NsMeta<Noesis::TypeId>("MyNsTest");
