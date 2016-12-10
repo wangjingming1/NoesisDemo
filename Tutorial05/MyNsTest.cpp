@@ -42,21 +42,23 @@ void MyNsTest::reloadView(){
 		gridTop_->GetChildren()->Add(btn.GetPtr());
 	}
 	Button *btn = FindName<Button>("Button1");
-	btn->MouseDown += MakeDelegate(&myMouseButtonDown);
-	btn->MouseUp += MakeDelegate(myMouseButtonUp);
-	btn->MouseMove += MakeDelegate(myMouseButtonMove);
-	btn->Click += Delegate(myMouseButtonDown);
+	btn->MouseDown() += MakeDelegate(this, &MyNsTest::myMouseButtonDown);
+	btn->MouseUp() += MakeDelegate(this, &MyNsTest::myMouseButtonUp);
+	btn->MouseMove() += MakeDelegate(this, &MyNsTest::myMouseButtonMove);
 }
 
-void MyNsTest::myMouseButtonDown(Noesis::Core::BaseComponent* sender, const Noesis::Gui::RoutedEventArgs& e) {
+void MyNsTest::myMouseButtonDown(Noesis::BaseComponent* sender, const Noesis::MouseButtonEventArgs& e) {
+	Canvas* canvas;
+	Noesis::Point p = canvas->PointFromScreen(e.position);
+	
+	printf("aaaaaa");
+}
+
+void MyNsTest::myMouseButtonUp(BaseComponent* sender, const  Noesis::Gui::MouseButtonEventArgs& e){
 
 }
 
-void MyNsTest::myMouseButtonUp(BaseComponent* sender, const RoutedEventArgs& e){
-
-}
-
-void MyNsTest::myMouseButtonMove(BaseComponent* sender, const RoutedEventArgs& e) {
+void MyNsTest::myMouseButtonMove(BaseComponent* sender, const  Noesis::Gui::MouseEventArgs& e) {
 
 }
 
@@ -78,8 +80,8 @@ DataObj::DataObj(NsString text, NsString pic) :
 	rewind(f);
 	NsByte * buffer = static_cast<NsByte *>(malloc(sizeof(unsigned char)*buffer_size));
 	fread(buffer, 1, buffer_size, f);
-	Noesis::Ptr<Noesis::BitmapSource> source = Noesis::BitmapSource::Create(
-		width, height, x, y, buffer, buffer_size, width / 8);
+	//Noesis::Ptr<Noesis::BitmapSource> source = Noesis::BitmapSource::Create(
+		//width, height, x, y, buffer, buffer_size, width / 8);
 	brush_ = *new Noesis::ImageBrush(image.GetPtr()/*source.GetPtr()*/);
 };
 

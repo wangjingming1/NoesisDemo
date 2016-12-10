@@ -8,9 +8,11 @@ public:
 	Noesis::Grid *gridTop_;
 	std::vector<std::string> gridTopData_;
 	void reloadView();
-	void myMouseButtonDown(BaseComponent* sender, const Noesis::Gui::RoutedEventArgs& e);
-	void myMouseButtonUp(BaseComponent* sender, const Noesis::Gui::RoutedEventArgs& e);
-	void myMouseButtonMove(BaseComponent* sender, const Noesis::Gui::RoutedEventArgs& e);
+	
+	void myMouseButtonDown(Noesis::BaseComponent* sender, const Noesis::MouseButtonEventArgs& e);
+
+	void myMouseButtonUp(BaseComponent* sender, const  Noesis::Gui::MouseButtonEventArgs&);
+	void myMouseButtonMove(BaseComponent* sender, const  Noesis::Gui::MouseEventArgs& e);
 	NS_IMPLEMENT_INLINE_REFLECTION(MyNsTest, Noesis::Grid)
 	{
 		NsMeta<Noesis::TypeId>("MyNsTest");
