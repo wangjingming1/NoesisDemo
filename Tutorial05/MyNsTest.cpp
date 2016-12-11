@@ -9,7 +9,7 @@
 using namespace Noesis;
 
 MyNsTest::MyNsTest(){
-	Noesis::GUI::LoadComponent(this, "addChuguiView2.xaml");
+	Noesis::GUI::LoadComponent(this, "wangjingming.xaml");
 	std::string str = "title";
 	for (int i = 0; i < 20; i++) {
 		gridTopData_.push_back(str + std::to_string(i));
@@ -18,48 +18,56 @@ MyNsTest::MyNsTest(){
 }
 //https://msdn.microsoft.com/zh-cn/library/vs/alm/ms752271(v=vs.110).aspx
 void MyNsTest::reloadView(){
-	gridTop_ = FindName<Grid>("GridTop");
-	gridTop_->GetRowDefinitions()->Clear();
-	gridTop_->GetColumnDefinitions()->Clear();
-	
-	Style *style = GetResources()->FindName<Style>("ButtonStyle");
-	Ptr<RowDefinition> row = *new RowDefinition();
-	row->SetHeight(45);
-	gridTop_->GetRowDefinitions()->Add(row.GetPtr());
+	picPanel_ = FindName<StackPanel>("PicPanel");
+	Noesis::Gui::UIElementCollection* collection = picPanel_->GetChildren();
+	Style *style = GetResources()->FindName<Style>("ImageCellStyle");
 
 	for (int i = 0; i < gridTopData_.size(); i++) {
-		Ptr<ColumnDefinition> column = *new ColumnDefinition();
-		column->SetWidth(80);
-		gridTop_->GetColumnDefinitions()->Add(column.GetPtr());
-
 		Ptr<Button> btn = *new Button();
 		btn->SetStyle(style);
-		btn->SetContent(gridTopData_[i].c_str());
-
-		gridTop_->SetRow(btn.GetPtr(), 0);
-		gridTop_->SetColumn(btn.GetPtr(), i);
-		
-		gridTop_->GetChildren()->Add(btn.GetPtr());
+		btn->MouseDown() += MakeDelegate(this, &MyNsTest::myMouseButtonDown);
+		btn->MouseUp() += MakeDelegate(this, &MyNsTest::myMouseButtonUp);
+		btn->MouseMove() += MakeDelegate(this, &MyNsTest::myMouseButtonMove);
+		collection->Add(btn.GetPtr());
 	}
 	Button *btn = FindName<Button>("Button1");
-	btn->MouseDown() += MakeDelegate(this, &MyNsTest::myMouseButtonDown);
-	btn->MouseUp() += MakeDelegate(this, &MyNsTest::myMouseButtonUp);
-	btn->MouseMove() += MakeDelegate(this, &MyNsTest::myMouseButtonMove);
+	
 }
 
 void MyNsTest::myMouseButtonDown(Noesis::BaseComponent* sender, const Noesis::MouseButtonEventArgs& e) {
-	Canvas* canvas;
-	Noesis::Point p = canvas->PointFromScreen(e.position);
+	canvas_ = FindName<Canvas>("movableButtonCanvas");
+	//Noesis::Point p = canvas->PointFromScreen(e.position);
+	Button *btn = (Button *)sender;
+	originPoint_ = Point(canvas_->GetLeft(btn), canvas_->GetTop(btn));
+	canvas_->SetLeft(btn, e.position.x - btn->GetWidth());
+	canvas_->SetTop(btn, e.position.y - btn->GetHeight());
 	
-	printf("aaaaaa");
-}
-
-void MyNsTest::myMouseButtonUp(BaseComponent* sender, const  Noesis::Gui::MouseButtonEventArgs& e){
-
+	Button *movableButton = FindName<Button>("movableButton");
+	movableButton->SetOpacity(1.0);
+	canvas_->SetLeft(movableButton, e.position.x - movableButton->GetWidth());
+	canvas_->SetBottom(movableButton, e.position.y - btn->GetHeight() / 2 - 20 - movableButton->GetHeight());
+	//btn->transfrm
 }
 
 void MyNsTest::myMouseButtonMove(BaseComponent* sender, const  Noesis::Gui::MouseEventArgs& e) {
 
+
+	Button *btn = (Button *)sender;
+	canvas_->SetLeft(btn, e.position.x - btn->GetWidth());
+	canvas_->SetTop(btn, e.position.y - btn->GetHeight());
+
+	Button *movableButton = FindName<Button>("movableButton");
+	canvas_->SetLeft(movableButton, e.position.x - movableButton->GetWidth());
+	canvas_->SetBottom(movableButton, e.position.y - btn->GetHeight() / 2 - 20 - movableButton->GetHeight());
+}
+
+void MyNsTest::myMouseButtonUp(BaseComponent* sender, const  Noesis::Gui::MouseButtonEventArgs& e){
+	Button *btn = (Button *)sender;
+	canvas_->SetLeft(btn, originPoint_.x);
+	canvas_->SetTop(btn, originPoint_.y);
+
+	Button *movableButton = FindName<Button>("movableButton");
+	movableButton->SetOpacity(0);
 }
 
 

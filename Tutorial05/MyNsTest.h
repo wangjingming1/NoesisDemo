@@ -5,10 +5,11 @@ class MyNsTest : public Noesis::Grid
 public:
 	MyNsTest();
 	~MyNsTest();
-	Noesis::Grid *gridTop_;
+	Noesis::Canvas* canvas_;
+	Noesis::StackPanel *picPanel_;
 	std::vector<std::string> gridTopData_;
 	void reloadView();
-	
+	Noesis::Point originPoint_;
 	void myMouseButtonDown(Noesis::BaseComponent* sender, const Noesis::MouseButtonEventArgs& e);
 
 	void myMouseButtonUp(BaseComponent* sender, const  Noesis::Gui::MouseButtonEventArgs&);

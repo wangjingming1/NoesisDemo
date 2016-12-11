@@ -7,11 +7,7 @@
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="Margin" Value="1"/>
-            <Setter Property="Background">
-                <Setter.Value>
-                    <ImageBrush ImageSource="image/1.jpg" Stretch="Fill"/>
-                </Setter.Value>
-            </Setter>
+            
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Template">
